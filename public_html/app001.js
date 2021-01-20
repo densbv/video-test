@@ -30,7 +30,9 @@ console.log(items);
         pagination.innerHTML = renderPager(page, pages);
       },
       (error) => {
-        app.innerHTML = error;
+        app.innerHTML = `<div class="alert alert-danger" role="alert">
+                            ${error}
+                         </div>`;
         console.log(error);
       }
     );
