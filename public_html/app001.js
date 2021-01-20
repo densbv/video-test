@@ -83,6 +83,7 @@ function pagerLinks(pages, page) {
     }
     linksHtml += linkTemplate(arr, currentPage);
     linksHtml += linkDisabled;
+    linksHtml += endsLink(pages);
     linksHtml += nextLink("", currentPage + 1);
   } else if (currentPage > interval && currentPage + interval < end) {
     let s = currentPage - 2;
@@ -100,6 +101,7 @@ function pagerLinks(pages, page) {
       arr[i] = s++;
     }
     linksHtml += prevLink("", currentPage - 1);
+    linksHtml += endsLink(start);
     linksHtml += linkDisabled;
     linksHtml += linkTemplate(arr, currentPage);
     if (currentPage === pages) {
@@ -120,12 +122,14 @@ function linkTemplate(arr, currentPage) {
   return linksHtml;
 }
 
+function endsLink(pageTarget) {
+  return `<li class="page-item"><a class="page-link active-link" href="${location.pathname}?page=${pageTarget}">${pageTarget}</a></li>`;
+}
+
 function prevLink(disabled, pageTarget) {
-  let prevHtml = `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}" tabindex="-1" aria-disabled="true">Назад</a></li>`;
-  return prevHtml;
+  return `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}" tabindex="-1" aria-disabled="true">Назад</a></li>`;
 }
 
 function nextLink(disabled, pageTarget) {
-  let nextHtml = `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}">Вперед</a></li>`;
-  return nextHtml;
+  return `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}">Вперед</a></li>`;
 }
