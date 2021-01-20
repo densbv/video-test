@@ -17,36 +17,39 @@ const indexes = (page, camsOnePage) => {
 const [...items] = indexes(page, camsOnePage);
 console.log(items);
 
-  fetch(apiUrl)
-    .then((res) => res.json())
-    .then(
-      (result) => {
-        console.log(result);
-        let pages = Math.ceil(result.length / camsOnePage);
-        console.log(pages);
-        cams = result.slice(...items);
-        console.log(cams);
-        app.innerHTML = renderCamCard(cams);
-        pager.innerHTML = renderPager(page, pages);
-        
-        let previews = document.getElementsByClassName("preview");
-        for(let i=0;i<previews.length;i++){
-          previews[i].addEventListener("click", function(e) {
+fetch(apiUrl)
+  .then((res) => res.json())
+  .then(
+    (result) => {
+      console.log(result);
+      let pages = Math.ceil(result.length / camsOnePage);
+      console.log(pages);
+      cams = result.slice(...items);
+      console.log(cams);
+      app.innerHTML = renderCamCard(cams);
+      pager.innerHTML = renderPager(page, pages);
+
+      let previews = document.getElementsByClassName("preview");
+      for (let i = 0; i < previews.length; i++) {
+        previews[i].addEventListener(
+          "click",
+          function (e) {
             console.log(this.id);
             let camId = this.id;
-            videoBlock = document.getElementById(`video${camId}`)
+            videoBlock = document.getElementById(`video${camId}`);
             videoBlock.innerHTML = video(camId);
-          } , false)
-        }
-        
-      },
-      (error) => {
-        app.innerHTML = `<div class="alert alert-danger" role="alert">
+          },
+          false
+        );
+      }
+    },
+    (error) => {
+      app.innerHTML = `<div class="alert alert-danger" role="alert">
                             ${error}
                          </div>`;
-        console.log(error);
-      }
-    );
+      console.log(error);
+    }
+  );
 
 function renderCamCard(cams) {
   let html = "";
@@ -58,7 +61,6 @@ function renderCamCard(cams) {
 
 function cardTemplate(cam) {
   let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
-  //let preview = `../public_html/preview.jpg?token=${cam.id}`;
   return `<div class="col"><div class="card" style="max-width: 300px;">
             <div id="video${cam.id}">
               <img class="preview" id="${cam.id}" src="${preview}" loading="lazy" style="max-height: 150px; width:300px;" />
@@ -156,5 +158,5 @@ function video(camId) {
               allowtransparency
               allow="autoplay"
             ></iframe>
-          </div>`
+          </div>`;
 }
