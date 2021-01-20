@@ -57,8 +57,8 @@ function renderCamCard(cams) {
 }
 
 function cardTemplate(cam) {
-  //let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
-  let preview = `../public_html/preview.jpg?token=${cam.id}`;
+  let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
+  //let preview = `../public_html/preview.jpg?token=${cam.id}`;
   return `<div class="col"><div class="card" style="max-width: 300px;">
             <div id="video${cam.id}">
               <img class="preview" id="${cam.id}" src="${preview}" loading="lazy" style="max-height: 150px; width:300px;" />
@@ -71,11 +71,11 @@ function cardTemplate(cam) {
 }
 
 function renderPager(page, pages) {
-  return `<nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
+  return `
+            <ul class="pagination">
               ${pagerLinks(pages, page)}
             </ul>
-          </nav>`;
+          `;
 }
 
 function pagerLinks(pages, page) {
@@ -132,7 +132,7 @@ function linkTemplate(arr, currentPage) {
   let linksHtml = "";
   for (let i = 0; i < arr.length; i++) {
     let active = arr[i] === currentPage ? "active" : "";
-    linksHtml += `<li class="page-item ${active}"><a class="page-link active-link" href="${location.pathname}?page=${arr[i]}">${arr[i]}</a></li>`;
+    linksHtml += `<li class="page-item"><a class="page-link ${active}" href="${location.pathname}?page=${arr[i]}">${arr[i]}</a></li>`;
   }
   return linksHtml;
 }
