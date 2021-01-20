@@ -27,7 +27,7 @@ console.log(items);
         cams = result.slice(...items);
         console.log(cams);
         app.innerHTML = renderCamCard(cams);
-        pagination.innerHTML = renderPager(page, pages);
+        pager.innerHTML = renderPager(page, pages);
         
         let previews = document.getElementsByClassName("preview");
         for(let i=0;i<previews.length;i++){
