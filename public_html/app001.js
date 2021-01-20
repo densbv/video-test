@@ -74,18 +74,15 @@ function pagerTemplate(pages, page) {
             <ul class="pagination justify-content-center">
               
               ${pagerLinks(pages, page)}
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
+              
             </ul>
           </nav>`;
 }
 
 function pagerLinks(pages, page) {
   let linksHtml = "";
-  let prev = `<li class="page-item disabled">
-  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-</li>`;
+  let prev = `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Назад</a></li>`;
+  let next = `<li class="page-item"><a class="page-link" href="#">Вперед</a></li>`;
   for (let i=1; i < pages+1; ++i) {
     let active = i === page ? "active" : "";
     if (i === 1) {
