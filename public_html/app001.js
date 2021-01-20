@@ -25,8 +25,8 @@ fetch(apiUrl)
   .then(
     (result) => {
       console.log(result);
-      let pages = Math.floor(result.length / camsOnePage);
-
+      let pages = Math.ceil(result.length / camsOnePage);
+      console.log(pages);
       cams = result.slice(...items);
       console.log(cams);
 
