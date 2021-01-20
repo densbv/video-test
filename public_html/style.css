@@ -1,0 +1,42 @@
+body {
+  width: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1024px;
+}
+
+.card {
+  float: left;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  margin: 15px;
+  min-height: 250px;
+}
+
+.pagination {
+  clear: both;
+}
+
+h5 {
+}
+
+.card-title {
+  text-align: center;
+  min-height: 32px;
+  padding: 10px 0;
+}
+
+li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination a {
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid #dedede;
+    text-decoration: none;
+}
+
