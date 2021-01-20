@@ -71,11 +71,9 @@ function cardTemplate(cam) {
 }
 
 function renderPager(page, pages) {
-  return `
-            <ul class="pagination">
+  return `<ul class="pagination">
               ${pagerLinks(pages, page)}
-            </ul>
-          `;
+            </ul>`;
 }
 
 function pagerLinks(pages, page) {
