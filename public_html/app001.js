@@ -44,10 +44,10 @@ function renderCamCard(cams) {
 }
 
 function cardTemplate(cam) {
-  //let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
+  let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
   //<img src="${preview}" / style="height: 200px;">
   return `<div class="col"><div class="card" style="width: 18rem;">
-            
+            <img src="${preview}" / style="height: 200px;">
             <div class="card-body">
               <h5 class="card-title">${cam.title}</h5>
               </div>
