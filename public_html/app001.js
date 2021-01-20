@@ -28,6 +28,7 @@ console.log(items);
         console.log(cams);
         app.innerHTML = renderCamCard(cams);
         pagination.innerHTML = renderPager(page, pages);
+        modal.innerHTML = modalCard();
         
         let previews = document.getElementsByClassName("preview");
         for(let i=0;i<previews.length;i++){
@@ -142,4 +143,22 @@ function prevLink(disabled, pageTarget) {
 
 function nextLink(disabled, pageTarget) {
   return `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}">Вперед</a></li>`;
+}
+
+function modalCard() {
+  return `<div class="modal-dialog modal-dialog-centered">
+            <div class="modal" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`
 }
