@@ -17,26 +17,23 @@ const indexes = (page, camsOnePage) => {
 const [...items] = indexes(page, camsOnePage);
 console.log(items);
 
-let app = document.getElementById("app");
-let pager = document.getElementById("pagination");
-
-fetch(apiUrl)
-  .then((res) => res.json())
-  .then(
-    (result) => {
-      console.log(result);
-      let pages = Math.ceil(result.length / camsOnePage);
-      console.log(pages);
-      cams = result.slice(...items);
-      console.log(cams);
-
-      app.innerHTML = renderCamCard(cams);
-      pagination.innerHTML = renderPager(page, pages);
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+  fetch(apiUrl)
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        console.log(result);
+        let pages = Math.ceil(result.length / camsOnePage);
+        console.log(pages);
+        cams = result.slice(...items);
+        console.log(cams);
+        app.innerHTML = renderCamCard(cams);
+        pagination.innerHTML = renderPager(page, pages);
+      },
+      (error) => {
+        app.innerHTML = error;
+        console.log(error);
+      }
+    );
 
 function renderCamCard(cams) {
   let html = "";
@@ -56,41 +53,79 @@ function cardTemplate(cam) {
               </div>
             </div>
           </div>`;
-      }
-
-function renderPager(page, pages) {
-console.log(page);
-console.log(pages);
-let prev = page - 1;
-let next = page + 1;
-console.log(prev);
-console.log(next);
-
-return pagerTemplate(pages, page);
 }
 
-function pagerTemplate(pages, page) {
-  return `<nav aria-label="Page navigation example">
+function renderPager(page, pages) {
+  return `<nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
-              
               ${pagerLinks(pages, page)}
-              
             </ul>
           </nav>`;
 }
 
 function pagerLinks(pages, page) {
+  let start = 1;
+  let currentPage = page;
+  let end = pages + 1;
+  const interval = 5;
+  let arr = [];
   let linksHtml = "";
-  let prev = `<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Назад</a></li>`;
-  let next = `<li class="page-item"><a class="page-link" href="#">Вперед</a></li>`;
-  for (let i=1; i < pages+1; ++i) {
-    let active = i === page ? "active" : "";
-    if (i === 1) {
-      linksHtml += prev + `<li class="page-item ${active}"><a class="page-link" href="${location.pathname}?page=${i}">${i}</a></li>`;
-    } else {
-      linksHtml += `<li class="page-item ${active}"><a class="page-link" href="${location.pathname}?page=${i}">${i}</a></li>`;
+  let linkDisabled = `<li class="page-item disabled"><span class="page-link" href="#">...</span></li>`;
+  if (currentPage <= interval) {
+    let s = 1;
+    for (let i = 0; i < interval; i++) {
+      arr[i] = s++;
     }
-    
+    if (currentPage === start) {
+      linksHtml += prevLink("disabled", start);
+    } else {
+      linksHtml += prevLink("", currentPage - 1);
+    }
+    linksHtml += linkTemplate(arr, currentPage);
+    linksHtml += linkDisabled;
+    linksHtml += nextLink("", currentPage + 1);
+  } else if (currentPage > interval && currentPage + interval < end) {
+    let s = currentPage - 2;
+    for (let i = 0; i < interval; i++) {
+      arr[i] = s++;
+    }
+    linksHtml += prevLink("", currentPage - 1);
+    linksHtml += linkDisabled;
+    linksHtml += linkTemplate(arr, currentPage);
+    linksHtml += linkDisabled;
+    linksHtml += nextLink("", currentPage + 1);
+  } else if (currentPage <= end) {
+    let s = end - interval;
+    for (let i = 0; i < interval; i++) {
+      arr[i] = s++;
+    }
+    linksHtml += prevLink("", currentPage - 1);
+    linksHtml += linkDisabled;
+    linksHtml += linkTemplate(arr, currentPage);
+    if (currentPage === pages) {
+      linksHtml += nextLink("disabled", end);
+    } else {
+      linksHtml += nextLink("", currentPage + 1);
+    }
   }
   return linksHtml;
+}
+
+function linkTemplate(arr, currentPage) {
+  let linksHtml = "";
+  for (let i = 0; i < arr.length; i++) {
+    let active = arr[i] === currentPage ? "active" : "";
+    linksHtml += `<li class="page-item ${active}"><a class="page-link active-link" href="${location.pathname}?page=${arr[i]}">${arr[i]}</a></li>`;
+  }
+  return linksHtml;
+}
+
+function prevLink(disabled, pageTarget) {
+  let prevHtml = `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}" tabindex="-1" aria-disabled="true">Назад</a></li>`;
+  return prevHtml;
+}
+
+function nextLink(disabled, pageTarget) {
+  let nextHtml = `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}">Вперед</a></li>`;
+  return nextHtml;
 }
