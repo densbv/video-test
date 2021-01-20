@@ -28,12 +28,14 @@ console.log(items);
         console.log(cams);
         app.innerHTML = renderCamCard(cams);
         pagination.innerHTML = renderPager(page, pages);
-        modal.innerHTML = modalCard();
         
         let previews = document.getElementsByClassName("preview");
         for(let i=0;i<previews.length;i++){
           previews[i].addEventListener("click", function(e) {
-            console.log("click");
+            console.log(this.id);
+            let camId = this.id;
+            videoBlock = document.getElementById(`video${camId}`)
+            videoBlock.innerHTML = video(camId);
           } , false)
         }
         
@@ -57,8 +59,10 @@ function renderCamCard(cams) {
 function cardTemplate(cam) {
   //let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
   let preview = `../public_html/preview.jpg?token=${cam.id}`;
-  return `<div class="col"><div class="card" style="width: 18rem;">
-            <img class="preview" src="${preview}" loading="lazy" style="height: 200px;" />
+  return `<div class="col"><div class="card" style="max-width: 300px;">
+            <div id="video${cam.id}">
+              <img class="preview" id="${cam.id}" src="${preview}" loading="lazy" style="max-height: 150px; width:300px;" />
+            </div>
             <div class="card-body">
               <h5 class="card-title">${cam.title}</h5>
               </div>
@@ -145,20 +149,14 @@ function nextLink(disabled, pageTarget) {
   return `<li class="page-item ${disabled}"><a class="page-link" href="${location.pathname}?page=${pageTarget}">Вперед</a></li>`;
 }
 
-function modalCard() {
-  return `<div class="modal-dialog modal-dialog-centered">
-            <div class="modal" tabindex="-1">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+function video(camId) {
+  let video = `https://krkvideo14.orionnet.online/cam1560/embed.html?token=${camId}`;
+  return `<div class="plyr__video-embed" id="player${camId}">
+            <iframe
+              src="${video}"
+              allowfullscreen
+              allowtransparency
+              allow="autoplay"
+            ></iframe>
           </div>`
 }
