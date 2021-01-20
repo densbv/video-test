@@ -29,8 +29,13 @@ console.log(items);
         app.innerHTML = renderCamCard(cams);
         pagination.innerHTML = renderPager(page, pages);
         
-        let preview = document.getElementById("preview");
-        console.log(preview);
+        let previews = document.getElementsByClassName("preview");
+        for(let i=0;i<previews.length;i++){
+          previews[i].addEventListener("click", function(e) {
+            console.log("click");
+          } , false)
+        }
+        
       },
       (error) => {
         app.innerHTML = `<div class="alert alert-danger" role="alert">
@@ -52,7 +57,7 @@ function cardTemplate(cam) {
   //let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
   let preview = `../public_html/preview.jpg?token=${cam.id}`;
   return `<div class="col"><div class="card" style="width: 18rem;">
-            <img id="preview" src="${preview}" loading="lazy" style="height: 200px;" />
+            <img class="preview" src="${preview}" loading="lazy" style="height: 200px;" />
             <div class="card-body">
               <h5 class="card-title">${cam.title}</h5>
               </div>
