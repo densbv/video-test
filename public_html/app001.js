@@ -1,3 +1,5 @@
+app.innerHTML = `<div class="loader"></div>`;
+
 const params = new URLSearchParams(document.location.search.substring(1));
 let page = parseInt(params.get("page"));
 if (isNaN(page)) {
@@ -28,20 +30,7 @@ fetch(apiUrl)
       console.log(cams);
       app.innerHTML = renderCamCard(cams);
       pager.innerHTML = renderPager(page, pages);
-
-      let previews = document.getElementsByClassName("preview");
-      for (let i = 0; i < previews.length; i++) {
-        previews[i].addEventListener(
-          "click",
-          function (e) {
-            console.log(this.id);
-            let camId = this.id;
-            videoBlock = document.getElementById(`video${camId}`);
-            videoBlock.innerHTML = video(camId);
-          },
-          false
-        );
-      }
+      addVideo();
     },
     (error) => {
       app.innerHTML = `<div class="alert alert-danger" role="alert">
@@ -61,9 +50,9 @@ function renderCamCard(cams) {
 
 function cardTemplate(cam) {
   let preview = `https://krkvideo14.orionnet.online/cam1560/preview.jpg?token=${cam.id}`;
-  return `<div class="col"><div class="card" style="max-width: 300px;">
+  return `<div class="col"><div class="card">
             <div id="video${cam.id}">
-              <img class="preview" id="${cam.id}" src="${preview}" loading="lazy" style="max-height: 150px; width:300px;" />
+              <img class="preview" id="${cam.id}" src="${preview}" loading="lazy" />
             </div>
             <div class="card-body">
               <h5 class="card-title">${cam.title}</h5>
@@ -159,4 +148,20 @@ function video(camId) {
               allow="autoplay"
             ></iframe>
           </div>`;
+}
+
+function addVideo() {
+  let previews = document.getElementsByClassName("preview");
+  for (let i = 0; i < previews.length; i++) {
+    previews[i].addEventListener(
+      "click",
+      function (e) {
+        console.log(this.id);
+        let camId = this.id;
+        videoBlock = document.getElementById(`video${camId}`);
+        videoBlock.innerHTML = video(camId);
+      },
+      false
+    );
+  }
 }
