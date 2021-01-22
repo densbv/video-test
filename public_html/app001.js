@@ -11,13 +11,12 @@ const apiUrl = "https://orionnet.online/api/v2/cameras/public";
 
 const camsOnePage = 9;
 
-const indexes = (page, camsOnePage) => {
+const [...indexes] = (page, camsOnePage) => {
   let end = page * camsOnePage;
   let start = end - camsOnePage;
   return [start, end];
 };
-const [...items] = indexes(page, camsOnePage);
-console.log(items);
+console.log(indexes);
 
 fetch(apiUrl)
   .then((res) => res.json())
@@ -26,7 +25,7 @@ fetch(apiUrl)
       console.log(result);
       let pages = Math.ceil(result.length / camsOnePage);
       console.log(pages);
-      cams = result.slice(...items);
+      cams = result.slice(...indexes);
       console.log(cams);
       app.innerHTML = renderCamCard(cams);
       pager.innerHTML = renderPager(page, pages);
